@@ -1,15 +1,20 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 
 type buttonProps = {
     title: string;
     onPress: any;
+    isLogin?: boolean;
 }
 
-const Button: React.FC<buttonProps> = ({ title, onPress }) => {
+const Button: React.FC<buttonProps> = ({ title, onPress, isLogin }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
-            <Text style={{ color: 'white', fontWeight: 'bold' }}>{title}</Text>
+        <TouchableOpacity style={styles.container} onPress={onPress} disabled={isLogin}>
+            {
+                isLogin ? (<ActivityIndicator size={16} color={'red'} />) : (
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>{title}</Text>
+                )
+            }
         </TouchableOpacity>
     );
 }
@@ -22,6 +27,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 18,
-        height: 55
+        height: 55,
+        flexDirection: 'row'
     }
 })

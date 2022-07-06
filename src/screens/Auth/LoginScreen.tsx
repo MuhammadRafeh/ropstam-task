@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import Contants from 'expo-constants';
 import colors from '../../theme/colors';
 import LoginButton from '../../components/UI/LoginButton';
@@ -18,12 +18,16 @@ const LoginScreen: React.FC<loginScreenProps> = ({ navigation }) => {
 
     const [email, setEmail] = useState<string>('hassan.zafar@ropstam.com');
     const [password, setPassword] = useState<string>('12345678');
+    const [isSigning, setIsSigning] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     const onButtonPress = async () => {
         try {
+            setIsSigning(true)
             await dispatch(signin(email, password) as any)
+            setIsSigning(false)
         } catch (err) {
+            setIsSigning(false)
             alert(err)
         }
     }
@@ -48,7 +52,7 @@ const LoginScreen: React.FC<loginScreenProps> = ({ navigation }) => {
             <TouchableOpacity style={{ marginBottom: 37, top: -10 }}>
                 <Text style={{ textAlign: 'right' }}>Recovery Password</Text>
             </TouchableOpacity>
-            <Button title={'Login'} onPress={onButtonPress} />
+            <Button title={'Login'} onPress={onButtonPress} isLogin={isSigning}/>
             <View style={styles.continueWith}>
                 <Text>or continue with</Text>
             </View>
