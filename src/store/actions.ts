@@ -7,11 +7,11 @@ export const logout = () => {
   }
 }
 
-export const authenticate = (token: string, userId: string) => {
+export const authenticate = (email: string, token: string) => {
   return {
     type: AUTHENTICATE,
     payload: {
-      userId,
+      email,
       token
     }
   }
@@ -20,7 +20,7 @@ export const authenticate = (token: string, userId: string) => {
 export const signin = (email: string, password: string) => {
   return async (dispatch: any) => {
 
-    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCTx9JvqK5eK8G7mbq9kKNRH-Yrzjwczew',
+    const response = await fetch('http://buddy.ropstambpo.com/api/login',
       {
         method: 'POST',
         headers: {
@@ -29,27 +29,17 @@ export const signin = (email: string, password: string) => {
         body: JSON.stringify({
           email,
           password,
-          returnSecureToken: true
+          device_token: 'zasdcvgtghnkiuhgfde345tewasdfghjkm'
         })
       })
-    if (!response.ok) {
-      const resData = await response.json();
-      let message = 'Something went wrong!';
-      if (resData.error.message === 'EMAIL_NOT_FOUND') {
-        message = 'Email not found!'
-      }
-      else if (resData.error.message === 'INVALID_PASSWORD') {
-        message = 'Password is not Correct!'
-      }
-      else if (resData.error.message === 'USER_DISABLED') {
-        message = 'User is currently Disabled'
-      }
 
-      throw new Error(message);
-
-    }
     const resData = await response.json();
-    console.log(resData, 'responseData');
-    // dispatch(authenticate(resData.idToken, resData.localId))
+
+    if (resData.meta.status == 200) {
+      dispatch(authenticate(email, resData.data.access_token))
+    } else {
+      throw new Error(resData.meta.message);
+    }
+
   }
 }

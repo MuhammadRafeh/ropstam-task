@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-type loginScreenProps = {
+type homeScreenProps = {
     navigation?: object;
 }
 
-const Login: React.FC<loginScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC<homeScreenProps> = ({ navigation }) => {
     return (
         <View>
 
@@ -13,7 +13,7 @@ const Login: React.FC<loginScreenProps> = ({ navigation }) => {
     );
 }
 
-export default Login;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     screen: {
