@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
 
@@ -9,7 +7,7 @@ export const logout = () => {
   }
 }
 
-export const authenticate = (token, userId) => {
+export const authenticate = (token: string, userId: string) => {
   return {
     type: AUTHENTICATE,
     payload: {
@@ -19,17 +17,8 @@ export const authenticate = (token, userId) => {
   }
 }
 
-const setAsyncStorageUserData = (token, userId, expiresIn) => {
-  const expiryDate = new Date(new Date().getTime() + parseInt(expiresIn) * 1000).toISOString();
-  AsyncStorage.setItem('userData', JSON.stringify({
-    token,
-    userId,
-    expiryDate
-  }))
-}
-
-export const signin = (email, password) => {
-  return async dispatch => {
+export const signin = (email: string, password: string) => {
+  return async (dispatch: any) => {
 
     const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCTx9JvqK5eK8G7mbq9kKNRH-Yrzjwczew',
       {
@@ -44,7 +33,6 @@ export const signin = (email, password) => {
         })
       })
     if (!response.ok) {
-      // throw new Error('Something went wrong!');
       const resData = await response.json();
       let message = 'Something went wrong!';
       if (resData.error.message === 'EMAIL_NOT_FOUND') {
@@ -61,8 +49,7 @@ export const signin = (email, password) => {
 
     }
     const resData = await response.json();
-    console.log(resData);
-    dispatch(authenticate(resData.idToken, resData.localId))
-    setAsyncStorageUserData(resData.idToken, resData.localId, resData.expiresIn);
+    console.log(resData, 'responseData');
+    // dispatch(authenticate(resData.idToken, resData.localId))
   }
 }
