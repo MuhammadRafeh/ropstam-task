@@ -6,6 +6,7 @@ import LoginButton from '../../components/UI/LoginButton';
 import TextInput from '../../components/UI/TextInput';
 import { useDispatch } from 'react-redux';
 import { signin } from '../../store/actions';
+import Button from '../../components/UI/Button';
 
 const { height } = Dimensions.get('window')
 
@@ -19,8 +20,12 @@ const LoginScreen: React.FC<loginScreenProps> = ({ navigation }) => {
     const [password, setPassword] = useState<string>('12345678');
     const dispatch = useDispatch();
 
-    const onButtonPress = () => {
-        dispatch(signin(email, password) as any)
+    const onButtonPress = async () => {
+        try {
+            await dispatch(signin(email, password) as any)
+        } catch (err) {
+            alert(err)
+        }
     }
 
     return (
@@ -43,9 +48,7 @@ const LoginScreen: React.FC<loginScreenProps> = ({ navigation }) => {
             <TouchableOpacity style={{ marginBottom: 37, top: -10 }}>
                 <Text style={{ textAlign: 'right' }}>Recovery Password</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={onButtonPress}>
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Login</Text>
-            </TouchableOpacity>
+            <Button title={'Login'} onPress={onButtonPress} />
             <View style={styles.continueWith}>
                 <Text>or continue with</Text>
             </View>
@@ -85,13 +88,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 2,
         letterSpacing: 1
-    },
-    button: {
-        backgroundColor: 'green',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 18,
-        height: 55
     },
     textInputs: {
         marginBottom: 20
