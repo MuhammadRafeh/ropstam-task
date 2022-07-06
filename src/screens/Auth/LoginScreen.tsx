@@ -20,7 +20,7 @@ const LoginScreen: React.FC<loginScreenProps> = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const onButtonPress = () => {
-        dispatch(signin(email, password))
+        dispatch(signin(email, password) as any)
     }
 
     return (

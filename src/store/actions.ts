@@ -17,7 +17,7 @@ export const authenticate = (email: string, token: string) => {
   }
 }
 
-export const signin = (email: string, password: string) => {
+export const signin = (email: string, password: string): Function => {
   return async (dispatch: any) => {
 
     const response = await fetch('http://buddy.ropstambpo.com/api/login',
