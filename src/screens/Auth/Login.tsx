@@ -1,10 +1,14 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-const Login = (props: any) => {
+type loginScreenProps = {
+    navigation?: object;
+}
+
+const Login: React.FC<loginScreenProps> = ({ navigation }) => {
     return (
         <View>
-            
+
         </View>
     );
 }
